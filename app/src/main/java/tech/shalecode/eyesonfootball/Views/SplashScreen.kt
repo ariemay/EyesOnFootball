@@ -4,7 +4,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import tech.shalecode.eyesonfootball.LeaguesActivity
 import tech.shalecode.eyesonfootball.R
 
 class SplashScreen : AppCompatActivity() {
@@ -14,7 +13,7 @@ class SplashScreen : AppCompatActivity() {
 
     internal val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
-            val intent = Intent(applicationContext, LeaguesActivity::class.java)
+            val intent = Intent(applicationContext, MatchActivity::class.java)
             startActivity(intent)
             finish()
         }
