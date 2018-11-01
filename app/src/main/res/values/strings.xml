@@ -1,14 +1,16 @@
 <resources>
     <string name="app_name">Eyes On Football</string>
     <string name="welcome">Welcome to</string>
+    <string name="last">Last Match </string>
+    <string name="next">Next Match </string>
 
-    <array name="league">
-        <item>English Premier League</item>
-        <item>English League Championship</item>
-        <item>German Bundesliga</item>
-        <item>Italian Serie A</item>
-        <item>French Ligue 1</item>
-        <item>Spanish La Liga</item>
-    </array>
+    <!--<array name="league">-->
+        <!--<item>English Premier League</item>-->
+        <!--<item>English League Championship</item>-->
+        <!--<item>German Bundesliga</item>-->
+        <!--<item>Italian Serie A</item>-->
+        <!--<item>French Ligue 1</item>-->
+        <!--<item>Spanish La Liga</item>-->
+    <!--</array>-->
 
 </resources>

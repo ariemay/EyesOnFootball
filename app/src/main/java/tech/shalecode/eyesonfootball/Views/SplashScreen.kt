@@ -1,15 +1,15 @@
 package tech.shalecode.eyesonfootball.Views
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.support.v7.app.AppCompatActivity
 import tech.shalecode.eyesonfootball.R
 
 class SplashScreen : AppCompatActivity() {
 
     private var mDelayHandler: Handler? = null
-    private val SPLASH_DELAY: Long = 3000
+    private val SPLASH_DELAY: Long = 2000
 
     internal val mRunnable: Runnable = Runnable {
         if (!isFinishing) {

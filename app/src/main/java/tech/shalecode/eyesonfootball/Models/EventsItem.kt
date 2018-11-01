@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class EventsItem(
 
 	@SerializedName("intHomeShots")
-	val intHomeShots: String? = null,
+	val intHomeShots: Long? = null,
 
 	@SerializedName("strSport")
 	val strSport: String? = null,
