@@ -10,7 +10,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -35,14 +35,14 @@ import tech.shalecode.eyesonfootball.Utility.visible
 class MatchActivity : AppCompatActivity(), MainView {
 
     private var events: MutableList<EventsItem> = mutableListOf()
-    private var leagues : MutableList<LeaguesItem> = mutableListOf()
+//    private var leagues : MutableList<LeaguesItem> = mutableListOf()
     private val presenter = MatchPresenter(this)
     private lateinit var adapter : MatchAdapter
-    private lateinit var listMatches : RecyclerView
+//    private lateinit var listMatches : RecyclerView
     private lateinit var spinnerID : String
     private lateinit var swipeRefresh : SwipeRefreshLayout
     private var listLeague = ArrayList<LeaguesItem>()
-    private lateinit var nameLeague : ArrayList<String>
+//    private lateinit var nameLeague : ArrayList<String>
     private var menu: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +51,11 @@ class MatchActivity : AppCompatActivity(), MainView {
 
         allLeagues()
         callSpinner(menu)
+        startBottomNav()
+
+        adapter = MatchAdapter(events)
+        var listMatches = listMatches
+        listMatches.layoutManager = LinearLayoutManager(this)
 
     }
 
@@ -115,63 +120,65 @@ class MatchActivity : AppCompatActivity(), MainView {
 
     private fun containerToShow(spinnerID: String, navMenu: Int) {
         var data: MutableList<EventsItem>
-            if (navMenu == 1) {
-                showLoading()
-                presenter.getLastMatches(this, spinnerID, object : OutputServerStats {
+        if (navMenu == 1) {
+            showLoading()
+            presenter.getLastMatches(this, spinnerID, object : OutputServerStats {
 
-                    override fun onSuccess(response: String) {
-                        Log.i("RESPONSE", response)
-                            try {
-                                    data = presenter.parsingData(this@MatchActivity, response)
-                                    if (data.size < 1) {
-                                        Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        getAdapterList()
-                                        hideLoading()
-                                    }
-
-                            } catch (e: NullPointerException) {
-                                Log.i("ERROR", "NullPointerException")
-                            }
-                    }
-
-                    override fun onFailed(response: String) {
-                        Log.i("ERROR", response)
-                    }
-
-                    override fun onFailure(throwable: Throwable?) {
-                        Toast.makeText(this@MatchActivity, "No connection?", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            } else if (navMenu == 2) {
-                showLoading()
-                presenter.getNextMatch(this, spinnerID, object : OutputServerStats {
-
-                    override fun onSuccess(response: String) {
-                        try {
-                            data = presenter.parsingData(this@MatchActivity, response)
-                            if (data.size < 1) {
-                                Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
-                            } else {
-                                getAdapterList()
-                                hideLoading()
-                            }
-
-                        } catch (e: NullPointerException) {
-                            Log.i("ERROR", "NullPointerException")
+                override fun onSuccess(response: String) {
+                    Log.i("RESPONSE", response)
+                    try {
+                        data = presenter.parsingData(this@MatchActivity, response)
+                        if (data.size < 1) {
+                            Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
+                        } else {
+                            listMatches.adapter = MatchAdapter(data)
+                            Log.i("DATAPARSED", data.toString())
+                            hideLoading()
                         }
 
+                    } catch (e: NullPointerException) {
+                        Log.i("ERROR", "NullPointerException")
+                    }
+                }
+
+                override fun onFailed(response: String) {
+                    Log.i("ERROR", response)
+                }
+
+                override fun onFailure(throwable: Throwable?) {
+                    Toast.makeText(this@MatchActivity, "No connection?", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else if (navMenu == 2) {
+            showLoading()
+            presenter.getNextMatch(this, spinnerID, object : OutputServerStats {
+
+                override fun onSuccess(response: String) {
+                    try {
+                        data = presenter.parsingData(this@MatchActivity, response)
+                        if (data.size < 1) {
+                            Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this@MatchActivity, data.toString(), Toast.LENGTH_SHORT).show()
+                            listMatches.adapter = MatchAdapter(data)
+                            hideLoading()
+                        }
+
+                    } catch (e: NullPointerException) {
+                        Log.i("ERROR", "NullPointerException")
                     }
 
-                    override fun onFailed(response: String) {
-                        Log.i("ERROR", response)
-                    }
+                }
 
-                    override fun onFailure(throwable: Throwable?) {
-                        Toast.makeText(this@MatchActivity, "No connection?", Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }
+                override fun onFailed(response: String) {
+                    Log.i("ERROR", response)
+                }
+
+                override fun onFailure(throwable: Throwable?) {
+                    Toast.makeText(this@MatchActivity, "No connection?", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun startBottomNav() {
@@ -180,6 +187,7 @@ class MatchActivity : AppCompatActivity(), MainView {
 
     private val bottomNavigationListener by lazy {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            Log.i("BOTNAV", item.toString())
             when (item.itemId) {
                 R.id.last_match_nav -> {
                     leagueSpinner.visibility = View.VISIBLE
@@ -224,5 +232,5 @@ class MatchActivity : AppCompatActivity(), MainView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun getAdapterList(): MatchAdapter? = recyclerview?.adapter as? MatchAdapter
+//    private fun getAdapterList(): MatchAdapter? = recyclerview?.adapter as? MatchAdapter
 }

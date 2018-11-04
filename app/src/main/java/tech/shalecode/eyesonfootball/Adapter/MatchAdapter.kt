@@ -28,11 +28,11 @@ class MatchAdapter(private val events: List<EventsItem>) : RecyclerView.Adapter<
 }
 
 class MatchUI : AnkoComponent<ViewGroup> {
-//    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun createView(ui: AnkoContext<ViewGroup>): View {
         return with(ui) {
             linearLayout {
                 orientation = LinearLayout.VERTICAL
+                lparams(height = dip(60), width = matchParent)
 
                 textView("Sun, 01-05-1988") {
                     id = R.id.dateEvent

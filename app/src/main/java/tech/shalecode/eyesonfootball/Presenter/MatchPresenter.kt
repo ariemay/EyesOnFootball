@@ -26,7 +26,7 @@ class MatchPresenter (private val view: MainView) {
                 override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                     if (response != null) {
                         if (response.isSuccessful) {
-                            callback.onSuccess(response.body().toString())
+                            callback.onSuccess(response.body().string())
                         } else {
                             callback.onFailed(response.errorBody().toString())
                         }
@@ -48,7 +48,7 @@ class MatchPresenter (private val view: MainView) {
                 override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
                     if (response != null) {
                         if (response.isSuccessful) {
-                            callback.onSuccess(response.body().toString())
+                            callback.onSuccess(response.body().string())
                         } else {
                             callback.onFailed(response.errorBody().toString())
                         }
@@ -65,37 +65,114 @@ class MatchPresenter (private val view: MainView) {
             val jsonObject = JSONObject(response)
             Log.d("TAG", "Response error exception $jsonObject")
             val message = jsonObject.getJSONArray("events")
+            Log.i("JSONARRAY", message.toString())
             for (i in 0 until message.length()) {
                 val data = message.getJSONObject(i)
-                val idEvent = data.getString("idEvent")
                 val dateEvent = data.getString("dateEvent")
-                val strSport = data.getString("strSport")
-                val idHome = data.getString("idHomeTeam")
-                val nameHome = data.getString("strHomeTeam")
-                val scoreHome = data.getString("intHomeScore")
-                val formationHome = data.getString("strHomeFormation")
-                val golDetailHome = data.getString("strHomeGoalDetails")
-                val intShotHome = data.getString("intHomeShots")
-                val lineupgkHome = data.getString("strHomeLineupGoalkeeper")
-                val lineupdefHome = data.getString("strHomeLineupDefense")
-                val lineupmidhome = data.getString("strHomeLineupMidfield")
-                val lineupforwadHome = data.getString("strHomeLineupForward")
-                val lineupsubHome = data.getString("strHomeLineupSubstitutes")
-                val idAway = data.getString("idAwayTeam")
-                val nameAway = data.getString("strAwayTeam")
-                val scoreAway = data.getString("intAwayScore")
-                val formationAway = data.getString("strAwayFormation")
-                val golDetailAway = data.getString("strAwayGoalDetails")
-                val intShotAway = data.getString("intAwayShots")
-                val lineupgkAway = data.getString("strAwayLineupGoalkeeper")
-                val lineupdefAway = data.getString("strAwayLineupDefense")
-                val lineupmidAway = data.getString("strAwayLineupMidfield")
-                val lineupforwadAway = data.getString("strAwayLineupForward")
-                val lineupsubAway = data.getString("strAwayLineupSubstitutes")
+                val idAwayTeam= data.getString("idAwayTeam")
+                val idEvent= data.getString("idEvent")
+                val idHomeTeam= data.getString("idHomeTeam")
+                val idLeague= data.getString("idLeague")
+                val idSoccerXML= data.getString("idSoccerXML")
+                val intAwayScore= data.getString("intAwayScore")
+                val intAwayShots= data.getString("intAwayShots")
+                val intHomeScore= data.getString("intHomeScore")
+                val intHomeShots= data.getString("intHomeShots")
+                val intRound= data.getString("intRound")
+                val intSpectators= data.getString("intSpectators")
+                val strAwayFormation= data.getString("strAwayFormation")
+                val strAwayGoalDetails= data.getString("strAwayGoalDetails")
+                val strAwayLineupDefense= data.getString("strAwayLineupDefense")
+                val strAwayLineupForward= data.getString("strAwayLineupForward")
+                val strAwayLineupGoalkeeper= data.getString("strAwayLineupGoalkeeper")
+                val strAwayLineupMidfield= data.getString("strAwayLineupMidfield")
+                val strAwayLineupSubstitutes= data.getString("strAwayLineupSubstitutes")
+                val strAwayRedCards= data.getString("strAwayRedCards")
+                val strAwayTeam= data.getString("strAwayTeam")
+                val strAwayYellowCards= data.getString("strAwayYellowCards")
+                val strBanner= data.getString("strBanner")
+                val strCircuit= data.getString("strCircuit")
+                val strCity= data.getString("strCity")
+                val strCountry= data.getString("strCountry")
+                val strDate= data.getString("strDate")
+                val strDescriptionEN= data.getString("strDescriptionEN")
+                val strEvent= data.getString("strEvent")
+                val strFanart= data.getString("strFanart")
+                val strFilename= data.getString("strFilename")
+                val strHomeFormation= data.getString("strHomeFormation")
+                val strHomeGoalDetails= data.getString("strHomeGoalDetails")
+                val strHomeLineupDefense= data.getString("strHomeLineupDefense")
+                val strHomeLineupForward= data.getString("strHomeLineupForward")
+                val strHomeLineupGoalkeeper= data.getString("strHomeLineupGoalkeeper")
+                val strHomeLineupMidfield= data.getString("strHomeLineupMidfield")
+                val strHomeLineupSubstitutes= data.getString("strHomeLineupSubstitutes")
+                val strHomeRedCards= data.getString("strHomeRedCards")
+                val strHomeTeam= data.getString("strHomeTeam")
+                val strHomeYellowCards= data.getString("strHomeYellowCards")
+                val strLeague= data.getString("strLeague")
+                val strLocked= data.getString("strLocked")
+                val strMap= data.getString("strMap")
+                val strPoster= data.getString("strPoster")
+                val strResult= data.getString("strResult")
+                val strSeason= data.getString("strSeason")
+                val strSport= data.getString("strSport")
+                val strTVStation= data.getString("strTVStation")
+                val strThumb= data.getString("strThumb")
+                val strTime= data.getString("strTime")
 
-                dataList.add(EventsItem(i.toLong(), idEvent, dateEvent, strSport, idHome, nameHome, scoreHome, formationHome, golDetailHome, intShotHome, lineupgkHome, lineupdefHome, lineupmidhome, lineupforwadHome, lineupsubHome,
-                    idAway, nameAway, scoreAway, formationAway, golDetailAway, intShotAway, lineupgkAway, lineupdefAway, lineupmidAway, lineupforwadAway, lineupsubAway
+                dataList.add(
+                        EventsItem(dateEvent, idAwayTeam,
+                                idEvent,
+                                idHomeTeam,
+                                idLeague,
+                                idSoccerXML,
+                                intAwayScore,
+                                intAwayShots,
+                                intHomeScore,
+                                intHomeShots,
+                                intRound,
+                                intSpectators,
+                                strAwayFormation,
+                                strAwayGoalDetails,
+                                strAwayLineupDefense,
+                                strAwayLineupForward,
+                                strAwayLineupGoalkeeper,
+                                strAwayLineupMidfield,
+                                strAwayLineupSubstitutes,
+                                strAwayRedCards,
+                                strAwayTeam,
+                                strAwayYellowCards,
+                                strBanner,
+                                strCircuit,
+                                strCity,
+                                strCountry,
+                                strDate,
+                                strDescriptionEN,
+                                strEvent,
+                                strFanart,
+                                strFilename,
+                                strHomeFormation,
+                                strHomeGoalDetails,
+                                strHomeLineupDefense,
+                                strHomeLineupForward,
+                                strHomeLineupGoalkeeper,
+                                strHomeLineupMidfield,
+                                strHomeLineupSubstitutes,
+                                strHomeRedCards,
+                                strHomeTeam,
+                                strHomeYellowCards,
+                                strLeague,
+                                strLocked,
+                                strMap,
+                                strPoster,
+                                strResult,
+                                strSeason,
+                                strSport,
+                                strTVStation,
+                                strThumb,
+                                strTime
                 ))
+                Log.i("DATALIST", dataList.toString())
             }
         } catch (e: Exception) {
             Log.d("TAG", "Response error exception $e")
