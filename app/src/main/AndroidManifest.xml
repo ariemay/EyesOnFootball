@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".Views.MatchActivity">
         </activity>
+        <activity android:name=".Views.DetailActivity">
+        </activity>
     </application>
 
 </manifest>

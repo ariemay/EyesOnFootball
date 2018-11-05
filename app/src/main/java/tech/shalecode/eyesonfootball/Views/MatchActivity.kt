@@ -6,6 +6,7 @@ Made by Arie May Wibowo
 
  */
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.widget.SwipeRefreshLayout
@@ -54,19 +55,28 @@ class MatchActivity : AppCompatActivity(), MainView {
         callSpinner(menu)
         startBottomNav()
 
-        adapter = MatchAdapter(events)
         var listMatches = listMatches
         listMatches.layoutManager = LinearLayoutManager(this)
+//        listMatches.adapter = MatchAdapter(events, {eventsItem -> toNextActivity(eventsItem) })
 
         swipeRefresh = goSwipeRefresh
         swipeRefresh.setOnRefreshListener {
             if (swipeRefresh.isRefreshing) {
                 swipeRefresh.isRefreshing = false
+                showLoading()
                 callSpinner(menu)
                 containerToShow(spinnerID, menu)
+                hideLoading()
             }
 
         }
+    }
+
+    private fun toNextActivity(eventsItem: EventsItem) {
+        val showDetailActivityIntent = Intent(this, DetailActivity::class.java)
+        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, eventsItem.idEvent)
+        startActivity(showDetailActivityIntent)
+        Log.i("INTENT??", eventsItem.idEvent.toString())
     }
 
     fun allLeagues() {
@@ -141,7 +151,7 @@ class MatchActivity : AppCompatActivity(), MainView {
                         if (data.size < 1) {
                             Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
                         } else {
-                            listMatches.adapter = MatchAdapter(data)
+                            listMatches.adapter = MatchAdapter(data, {data -> toNextActivity(data) })
                             Log.i("DATAPARSED", data.toString())
                             hideLoading()
                         }
@@ -169,7 +179,7 @@ class MatchActivity : AppCompatActivity(), MainView {
                         if (data.size < 1) {
                             Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
                         } else {
-                            listMatches.adapter = MatchAdapter(data)
+                            listMatches.adapter = MatchAdapter(data, {data -> toNextActivity(data) })
                             hideLoading()
                         }
 

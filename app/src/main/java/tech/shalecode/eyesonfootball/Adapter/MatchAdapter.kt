@@ -10,18 +10,18 @@ import android.widget.TextView
 import org.jetbrains.anko.*
 import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.R
-import tech.shalecode.eyesonfootball.R.color.black
 import tech.shalecode.eyesonfootball.R.id.*
+import tech.shalecode.eyesonfootball.Utility.Date.changeDate
 
 
-class MatchAdapter(private val events: List<EventsItem>) : RecyclerView.Adapter<MatchesViewHolder>() {
+class MatchAdapter(private val events: List<EventsItem>, private val listener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
         return MatchesViewHolder(MatchUI().createView(AnkoContext.create(parent.context, parent)))
     }
 
     override fun onBindViewHolder(holder: MatchesViewHolder, position: Int) {
-        holder.bindItem(events[position])
+        holder.bindItem(events[position], listener)
     }
 
     override fun getItemCount(): Int = events.size
@@ -33,7 +33,7 @@ class MatchUI : AnkoComponent<ViewGroup> {
         return with(ui) {
             linearLayout {
                 orientation = LinearLayout.VERTICAL
-                lparams(height = dip(60), width = matchParent)
+                lparams(height = dip(100), width = matchParent)
 
                 textView("Sun, 01-05-1988") {
                     id = R.id.dateEvent
@@ -54,12 +54,14 @@ class MatchUI : AnkoComponent<ViewGroup> {
                         textView("Juventus") {
                             gravity = Gravity.CENTER
                             id = R.id.homeTeamName
+                            textSize = 18F
                         }.lparams(width = matchParent, height = wrapContent) {
                             weight = 0.8F
                         }
                         textView("5") {
                             gravity = Gravity.CENTER
                             id = R.id.homeTeamScore
+                            textSize = 16F
                         }.lparams(width = matchParent, height = wrapContent) {
                             weight = 1F
                         }
@@ -72,20 +74,18 @@ class MatchUI : AnkoComponent<ViewGroup> {
                         textView("0") {
                             gravity = Gravity.CENTER
                             id = R.id.awayTeamScore
+                            textSize = 16F
                         }.lparams(width = matchParent, height = wrapContent) {
                             weight = 1F
                         }
                         textView("Barcelona") {
                             gravity = Gravity.CENTER
                             id = R.id.awayTeamName
+                            textSize = 18F
                         }.lparams(width = matchParent, height = wrapContent) {
                             weight = 0.8F
                         }
                     }
-                }
-                textView {
-                    padding = dip(10)
-                    backgroundColor = black
                 }
             }
         }
@@ -101,18 +101,19 @@ class MatchesViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     private val AWAY_TEAM_SCORE : TextView = view.find(awayTeamScore)
     private val DATE_EVENT : TextView = view.find(dateEvent)
 
-    fun bindItem(events: EventsItem) {
+    fun bindItem(events: EventsItem, listener: (EventsItem) -> Unit) {
         HOME_TEAM_NAME.text = events.strHomeTeam
-//        HOME_TEAM_SCORE.text = events.intHomeScore
         AWAY_TEAM_NAME.text = events.strAwayTeam
-//        AWAY_TEAM_SCORE.text = events.intAwayScore
-        DATE_EVENT.text = events.dateEvent
+        DATE_EVENT.text = changeDate(events.dateEvent)
         if (events.intHomeScore != "null") {
             HOME_TEAM_SCORE.text = events.intHomeScore
             AWAY_TEAM_SCORE.text = events.intAwayScore
         } else {
             HOME_TEAM_SCORE.text = "?"
             AWAY_TEAM_SCORE.text = "?"
+        }
+        itemView.setOnClickListener {
+            listener(events)
         }
     }
 }

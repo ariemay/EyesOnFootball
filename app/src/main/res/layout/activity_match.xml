@@ -17,8 +17,8 @@
             android:id="@+id/leagueSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/light_grey"
-            android:minHeight="40dp"
+            android:background="@color/dark_gray"
+            android:minHeight="20dp"
             android:padding="18dp" />
 
         <ProgressBar
@@ -40,6 +40,7 @@
                     android:id="@+id/listMatches"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginVertical="10dp"
                     android:layout_above="@+id/navigation_bottom"
                     android:background="@color/white"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
