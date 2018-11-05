@@ -10,6 +10,7 @@ import android.widget.TextView
 import org.jetbrains.anko.*
 import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.R
+import tech.shalecode.eyesonfootball.R.color.black
 import tech.shalecode.eyesonfootball.R.id.*
 
 
@@ -82,6 +83,10 @@ class MatchUI : AnkoComponent<ViewGroup> {
                         }
                     }
                 }
+                textView {
+                    padding = dip(10)
+                    backgroundColor = black
+                }
             }
         }
     }
@@ -98,9 +103,16 @@ class MatchesViewHolder (view: View) : RecyclerView.ViewHolder(view) {
 
     fun bindItem(events: EventsItem) {
         HOME_TEAM_NAME.text = events.strHomeTeam
-        HOME_TEAM_SCORE.text = events.intHomeScore
+//        HOME_TEAM_SCORE.text = events.intHomeScore
         AWAY_TEAM_NAME.text = events.strAwayTeam
-        AWAY_TEAM_SCORE.text = events.intAwayScore
+//        AWAY_TEAM_SCORE.text = events.intAwayScore
         DATE_EVENT.text = events.dateEvent
+        if (events.intHomeScore != "null") {
+            HOME_TEAM_SCORE.text = events.intHomeScore
+            AWAY_TEAM_SCORE.text = events.intAwayScore
+        } else {
+            HOME_TEAM_SCORE.text = "?"
+            AWAY_TEAM_SCORE.text = "?"
+        }
     }
 }

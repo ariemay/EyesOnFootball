@@ -21,6 +21,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_match.*
+import org.jetbrains.anko.support.v4.onRefresh
 import org.json.JSONArray
 import org.json.JSONObject
 import tech.shalecode.eyesonfootball.Adapter.MatchAdapter
@@ -57,6 +58,15 @@ class MatchActivity : AppCompatActivity(), MainView {
         var listMatches = listMatches
         listMatches.layoutManager = LinearLayoutManager(this)
 
+        swipeRefresh = goSwipeRefresh
+        swipeRefresh.setOnRefreshListener {
+            if (swipeRefresh.isRefreshing) {
+                swipeRefresh.isRefreshing = false
+                callSpinner(menu)
+                containerToShow(spinnerID, menu)
+            }
+
+        }
     }
 
     fun allLeagues() {
@@ -159,7 +169,6 @@ class MatchActivity : AppCompatActivity(), MainView {
                         if (data.size < 1) {
                             Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
                         } else {
-                            Toast.makeText(this@MatchActivity, data.toString(), Toast.LENGTH_SHORT).show()
                             listMatches.adapter = MatchAdapter(data)
                             hideLoading()
                         }
