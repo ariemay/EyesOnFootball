@@ -1,4 +1,4 @@
-package tech.shalecode.eyesonfootball.Views
+package tech.shalecode.eyesonfootball.Views.Matchs
 
 import tech.shalecode.eyesonfootball.Models.EventsItem
 

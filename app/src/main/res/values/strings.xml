@@ -3,14 +3,12 @@
     <string name="welcome">Welcome to</string>
     <string name="last">Last Match </string>
     <string name="next">Next Match </string>
-
-    <!--<array name="league">-->
-        <!--<item>English Premier League</item>-->
-        <!--<item>English League Championship</item>-->
-        <!--<item>German Bundesliga</item>-->
-        <!--<item>Italian Serie A</item>-->
-        <!--<item>French Ligue 1</item>-->
-        <!--<item>Spanish La Liga</item>-->
-    <!--</array>-->
-
+    <string name="goalers">Goalers</string>
+    <string name="scores">Final Score</string>
+    <string name="yellowcard">Yellow Card</string>
+    <string name="redcard">Red Card</string>
+    <string name="Forward">Forward</string>
+    <string name="Midfielder">Midfielder</string>
+    <string name="Defender">Defender</string>
+    <string name="Keeper">Keeper</string>
 </resources>

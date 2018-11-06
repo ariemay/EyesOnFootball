@@ -11,9 +11,9 @@ import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.Server.RetroService
 import tech.shalecode.eyesonfootball.Server.ServUtils
 import tech.shalecode.eyesonfootball.Utility.OutputServerStats
-import tech.shalecode.eyesonfootball.Views.MainView
+import tech.shalecode.eyesonfootball.Views.Matchs.MatchActivity
 
-class MatchPresenter (private val view: MainView) {
+class MatchPresenter (private val view: MatchActivity) {
 
     fun getLastMatches(context: Activity, leagueID: String?, callback: OutputServerStats) {
         view.showLoading()
@@ -178,27 +178,5 @@ class MatchPresenter (private val view: MainView) {
             Log.d("TAG", "Response error exception $e")
         }
         return dataList
-    }
-
-    fun getDetailMatch(context: Activity, leagueID: String?, callback: OutputServerStats) {
-        view.showLoading()
-        val newRetroServ: RetroService = ServUtils.apiService
-        if (leagueID != null) {
-            newRetroServ.getNextMatches(leagueID).enqueue(object: Callback<ResponseBody> {
-                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                    callback.onFailure(t)
-                }
-                override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                    if (response != null) {
-                        if (response.isSuccessful) {
-                            callback.onSuccess(response.body().toString())
-                        } else {
-                            callback.onFailed(response.errorBody().toString())
-                        }
-                    }
-                }
-            })
-        }
-        view.hideLoading()
     }
 }

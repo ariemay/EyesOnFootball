@@ -1,8 +1,14 @@
-package tech.shalecode.eyesonfootball.Views
+package tech.shalecode.eyesonfootball.Views.Matchs
 
 /*
 
-Made by Arie May Wibowo
+Originally Made by Arie May Wibowo
+With several resources as reference for RETROFIT2
+For Dicoding Submission 2
+No plagiation I did. Don't ban me.
+Thank you.
+
+shalecode.tech => My personal domain, not released yet. Still trying to use Django for it.
 
  */
 
@@ -22,7 +28,6 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_match.*
-import org.jetbrains.anko.support.v4.onRefresh
 import org.json.JSONArray
 import org.json.JSONObject
 import tech.shalecode.eyesonfootball.Adapter.MatchAdapter
@@ -33,18 +38,14 @@ import tech.shalecode.eyesonfootball.R
 import tech.shalecode.eyesonfootball.Utility.OutputServerStats
 import tech.shalecode.eyesonfootball.Utility.invisible
 import tech.shalecode.eyesonfootball.Utility.visible
+import tech.shalecode.eyesonfootball.Views.Details.DetailActivity
 
 class MatchActivity : AppCompatActivity(), MainView {
 
-    private var events: MutableList<EventsItem> = mutableListOf()
-//    private var leagues : MutableList<LeaguesItem> = mutableListOf()
     private val presenter = MatchPresenter(this)
-    private lateinit var adapter : MatchAdapter
-//    private lateinit var listMatches : RecyclerView
     private lateinit var spinnerID : String
     private lateinit var swipeRefresh : SwipeRefreshLayout
     private var listLeague = ArrayList<LeaguesItem>()
-//    private lateinit var nameLeague : ArrayList<String>
     private var menu: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,6 @@ class MatchActivity : AppCompatActivity(), MainView {
 
         var listMatches = listMatches
         listMatches.layoutManager = LinearLayoutManager(this)
-//        listMatches.adapter = MatchAdapter(events, {eventsItem -> toNextActivity(eventsItem) })
 
         swipeRefresh = goSwipeRefresh
         swipeRefresh.setOnRefreshListener {
@@ -74,7 +74,7 @@ class MatchActivity : AppCompatActivity(), MainView {
 
     private fun toNextActivity(eventsItem: EventsItem) {
         val showDetailActivityIntent = Intent(this, DetailActivity::class.java)
-        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, eventsItem.idEvent)
+        showDetailActivityIntent.putExtra("EVENT_ID", eventsItem.idEvent)
         startActivity(showDetailActivityIntent)
         Log.i("INTENT??", eventsItem.idEvent.toString())
     }
@@ -251,5 +251,4 @@ class MatchActivity : AppCompatActivity(), MainView {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-//    private fun getAdapterList(): MatchAdapter? = recyclerview?.adapter as? MatchAdapter
 }

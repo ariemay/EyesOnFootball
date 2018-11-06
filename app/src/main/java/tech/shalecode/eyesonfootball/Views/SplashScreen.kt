@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import tech.shalecode.eyesonfootball.R
+import tech.shalecode.eyesonfootball.Views.Matchs.MatchActivity
 
 class SplashScreen : AppCompatActivity() {
 
     private var mDelayHandler: Handler? = null
-    private val SPLASH_DELAY: Long = 2000
+    private val SPLASH_DELAY: Long = 1000
 
     internal val mRunnable: Runnable = Runnable {
         if (!isFinishing) {
