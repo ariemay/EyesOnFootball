@@ -13,5 +13,7 @@ class FootballAPI {
         const val eventsNextleague = "eventsnextleague.php"
 
         const val lookupEvent = "lookupevent.php"
+
+        const val lookupteam = "lookupteam.php"
     }
 }

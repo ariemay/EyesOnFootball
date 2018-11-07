@@ -11,4 +11,9 @@
     <string name="Midfielder">Midfielder</string>
     <string name="Defender">Defender</string>
     <string name="Keeper">Keeper</string>
+    <string name="zero">0</string>
+    <string name="strip">-</string>
+    <string name="Home">Home</string>
+    <string name="Away">Away</string>
+    <string name="versus">vs</string>
 </resources>

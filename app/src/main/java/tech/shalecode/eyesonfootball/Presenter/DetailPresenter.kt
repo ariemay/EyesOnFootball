@@ -30,4 +30,23 @@ class DetailPresenter (private val view: DetailActivity) {
             })
         }
     }
+    fun getBadgeForDetail(context: Activity, teamID: String?, callback: OutputServerStats) {
+        val newRetroServ: RetroService = ServUtils.apiService
+        if (teamID != null) {
+            newRetroServ.getTeamBadge(teamID).enqueue(object: Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                    callback.onFailure(t)
+                }
+                override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                    if (response != null) {
+                        if (response.isSuccessful) {
+                            callback.onSuccess(response.body().string())
+                        } else {
+                            callback.onFailed(response.errorBody().string())
+                        }
+                    }
+                }
+            })
+        }
+    }
 }

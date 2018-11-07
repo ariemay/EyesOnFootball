@@ -47,6 +47,7 @@ class MatchActivity : AppCompatActivity(), MainView {
     private lateinit var swipeRefresh : SwipeRefreshLayout
     private var listLeague = ArrayList<LeaguesItem>()
     private var menu: Int = 1
+    private var passItem : ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,10 +74,13 @@ class MatchActivity : AppCompatActivity(), MainView {
     }
 
     private fun toNextActivity(eventsItem: EventsItem) {
+        val idEvent = eventsItem.idEvent.toString()
+        passItem?.clear()
+        passItem = arrayListOf(eventsItem.idHomeTeam.toString(), eventsItem.idAwayTeam.toString())
         val showDetailActivityIntent = Intent(this, DetailActivity::class.java)
-        showDetailActivityIntent.putExtra("EVENT_ID", eventsItem.idEvent)
+        showDetailActivityIntent.putExtra("ID_TEAMS", passItem)
+        showDetailActivityIntent.putExtra("ID_EVENTS", idEvent)
         startActivity(showDetailActivityIntent)
-        Log.i("INTENT??", eventsItem.idEvent.toString())
     }
 
     fun allLeagues() {

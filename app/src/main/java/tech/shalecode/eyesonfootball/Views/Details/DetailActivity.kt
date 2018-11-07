@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.json.JSONObject
 import tech.shalecode.eyesonfootball.Presenter.DetailPresenter
@@ -25,6 +26,8 @@ import tech.shalecode.eyesonfootball.Utility.OutputServerStats
 class DetailActivity : AppCompatActivity() {
 
     private val presenter = DetailPresenter(this)
+    private var badgeHome : String? = null
+    private var badgeAway : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +52,10 @@ class DetailActivity : AppCompatActivity() {
         val homeKeeper = HOME_KEEPER
         val awayKeeper = AWAY_KEEPER
 
-        val eventsId = intent.getStringExtra("EVENT_ID")
+        val eventsId = intent.getStringExtra("ID_EVENTS")
+        val passedItems = intent.getStringArrayListExtra("ID_TEAMS")
+
+        getBadges(passedItems)
 
         presenter.getDetailMatch(this, eventsId, object: OutputServerStats {
             override fun onFailed(response: String) {
@@ -93,5 +99,42 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun getBadges (passedItems: ArrayList<String>) {
+        val homeBadge = BADGE_HOME
+        val awayBadge = BADGE_AWAY
+        for (i in 0 until passedItems.size) {
+            presenter.getBadgeForDetail(this, passedItems[i], object : OutputServerStats {
+                override fun onSuccess(response: String) {
+                    if (i == 0) {
+                        val jsonObject = JSONObject(response)
+                        val teamsDet = jsonObject.getJSONArray("teams")
+                        for (i in 0 until teamsDet.length()) {
+                            val data = teamsDet.getJSONObject(i)
+                            badgeHome = data.getString("strTeamBadge")
+                        }
+                    } else if (i == 1) {
+                        val jsonObject = JSONObject(response)
+                        val teamsDet = jsonObject.getJSONArray("teams")
+                        for (i in 0 until teamsDet.length()) {
+                            val data = teamsDet.getJSONObject(i)
+                            badgeAway= data.getString("strTeamBadge")
+                        }
+                    }
+                    Picasso.get().load(badgeHome).fit().centerInside().into(homeBadge)
+                    Picasso.get().load(badgeAway).fit().centerInside().into(awayBadge)
+                }
+
+                override fun onFailed(response: String) {
+                    Toast.makeText(this@DetailActivity, "Silahkan coba lagi", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onFailure(throwable: Throwable?) {
+                    Toast.makeText(this@DetailActivity, "Coba cek koneksinya gimana...", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+        }
     }
 }

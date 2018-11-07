@@ -14,4 +14,7 @@ interface RetroService {
 
     @GET(FootballAPI.lookupEvent)
     fun getEventDetail(@Query("id") eventID: String) : Call<ResponseBody>
+
+    @GET(FootballAPI.lookupteam)
+    fun getTeamBadge(@Query("id") eventID: String) : Call<ResponseBody>
 }
