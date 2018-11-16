@@ -3,9 +3,7 @@ package tech.shalecode.eyesonfootball.Views.Matchs
 /*
 
 Originally Made by Arie May Wibowo
-With several resources as reference for RETROFIT2
-For Dicoding Submission 2
-No plagiation I did. Don't ban me.
+For Dicoding Submission 3
 Thank you.
 
 shalecode.tech => My personal domain, not released yet. Still trying to use Django for it.
@@ -31,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_match.*
 import org.json.JSONArray
 import org.json.JSONObject
 import tech.shalecode.eyesonfootball.Adapter.MatchAdapter
+import tech.shalecode.eyesonfootball.Fragment.FavoriteMatchFragment
 import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.Models.LeaguesItem
 import tech.shalecode.eyesonfootball.Presenter.MatchPresenter
@@ -57,6 +56,7 @@ class MatchActivity : AppCompatActivity(), MainView {
         callSpinner(menu)
         startBottomNav()
 
+
         var listMatches = listMatches
         listMatches.layoutManager = LinearLayoutManager(this)
 
@@ -75,11 +75,13 @@ class MatchActivity : AppCompatActivity(), MainView {
 
     private fun toNextActivity(eventsItem: EventsItem) {
         val idEvent = eventsItem.idEvent.toString()
+        val dataMatch  = eventsItem
         passItem?.clear()
         passItem = arrayListOf(eventsItem.idHomeTeam.toString(), eventsItem.idAwayTeam.toString())
         val showDetailActivityIntent = Intent(this, DetailActivity::class.java)
-        showDetailActivityIntent.putExtra("ID_TEAMS", passItem)
+        showDetailActivityIntent.putExtra("PASSEDITEM", passItem)
         showDetailActivityIntent.putExtra("ID_EVENTS", idEvent)
+        showDetailActivityIntent.putExtra("TOFAV", dataMatch)
         startActivity(showDetailActivityIntent)
     }
 
@@ -201,6 +203,15 @@ class MatchActivity : AppCompatActivity(), MainView {
                     Toast.makeText(this@MatchActivity, "No connection?", Toast.LENGTH_SHORT).show()
                 }
             })
+        } else if (menu == 3) {
+            var data : MutableList<EventsItem>
+            Log.i("DATAFAV", "start?")
+            data = presenter.getFav(this)
+            if (data.size < 1) {
+                Toast.makeText(this@MatchActivity, "No Data", Toast.LENGTH_SHORT).show()
+            } else {
+                listMatches.adapter = MatchAdapter(data, {data -> toNextActivity(data) })
+            }
         }
     }
 
@@ -230,13 +241,20 @@ class MatchActivity : AppCompatActivity(), MainView {
                     Log.d("ACT", "Next")
                     true
                 }
+                R.id.favorites -> {
+                    menu = 3
+                    title = getString(R.string.favorites)
+                    callSpinner(menu)
+                    containerToShow("0", menu)
+                    Log.d("ACT", "FAV")
+                    true
+                }
                 else -> {
                     true
                 }
             }
         }
     }
-
 
 
     override fun showLoading() {

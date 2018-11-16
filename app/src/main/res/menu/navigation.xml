@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/last_match_nav"
-            android:title="Last Match"/>
+        android:id="@+id/last_match_nav"
+        android:title="Last Match"
+        app:showAsAction="ifRoom"/>
     <item
-            android:id="@+id/next_match_nav"
-            android:title="Next Match"/>
+        android:id="@+id/favorites"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorites"
+        android:title="@string/favorites"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/next_match_nav"
+        android:title="Next Match"
+        app:showAsAction="ifRoom"/>
 </menu>

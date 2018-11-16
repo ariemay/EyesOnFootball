@@ -3,9 +3,7 @@ package tech.shalecode.eyesonfootball.Views.Details
 /*
 
 Originally Made by Arie May Wibowo
-With several resources as reference for RETROFIT2
-For Dicoding Submission 2
-No plagiation I did. Don't ban me.
+For Dicoding Submission 3
 Thank you.
 
 shalecode.tech => My personal domain, not released yet. Still trying to use Django for it.
@@ -14,20 +12,29 @@ shalecode.tech => My personal domain, not released yet. Still trying to use Djan
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.jetbrains.anko.ctx
 import org.json.JSONObject
+import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.Presenter.DetailPresenter
 import tech.shalecode.eyesonfootball.R
+import tech.shalecode.eyesonfootball.R.id.add_to_favorite
 import tech.shalecode.eyesonfootball.Utility.OutputServerStats
 
 class DetailActivity : AppCompatActivity() {
 
-    private val presenter = DetailPresenter(this)
+    private val presenter = DetailPresenter()
     private var badgeHome : String? = null
     private var badgeAway : String? = null
+    private var menuItem: Menu? = null
+    private var isFavorite: Boolean = false
+    private lateinit var mData: EventsItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +60,10 @@ class DetailActivity : AppCompatActivity() {
         val awayKeeper = AWAY_KEEPER
 
         val eventsId = intent.getStringExtra("ID_EVENTS")
-        val passedItems = intent.getStringArrayListExtra("ID_TEAMS")
+        val passedItems = intent.getStringArrayListExtra("PASSEDITEM")
+        mData = intent.getParcelableExtra("TOFAV")
+        Log.i("TOFAV", mData.toString())
+
 
         getBadges(passedItems)
 
@@ -99,6 +109,24 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         })
+
+        isFavorite = presenter.isFavorite(this, mData)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_menu, menu)
+        menuItem = menu
+        setFavorite()
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun setFavorite() {
+        Log.i("ISFAVORITE", isFavorite.toString())
+        Log.i("MENUITEM", menuItem?.getItem(0).toString())
+        if (isFavorite)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_added_favorites)
+        else
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_add_to_favorites)
     }
 
     private fun getBadges (passedItems: ArrayList<String>) {
@@ -136,5 +164,27 @@ class DetailActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        } else if (item.itemId == add_to_favorite) {
+            if (isFavorite) {
+                presenter.removeFav(this, mData)
+                Log.i("TAG REMOVE", "Remove fav")
+            } else {
+                presenter.addFav(this, mData)
+                Log.i("TAG ADD", mData.toString())
+            }
+            isFavorite = !isFavorite
+            setFavorite()
+            return true
+        }
+        return false
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 }

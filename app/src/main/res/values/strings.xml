@@ -16,4 +16,5 @@
     <string name="Home">Home</string>
     <string name="Away">Away</string>
     <string name="versus">vs</string>
+    <string name="favorites">Favorites</string>
 </resources>
