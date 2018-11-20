@@ -34,7 +34,7 @@ class MatchPresenter (private val view: MatchActivity) {
         return data
     }
 
-    fun getLastMatches(context: Activity, leagueID: String?, callback: OutputServerStats) {
+    fun getLastMatches(leagueID: String?, callback: OutputServerStats) {
         view.showLoading()
         val newRetroServ: RetroService = ServUtils.apiService
         if (leagueID != null) {
@@ -56,7 +56,7 @@ class MatchPresenter (private val view: MatchActivity) {
         view.hideLoading()
     }
 
-    fun getNextMatch(context: Activity, leagueID: String?, callback: OutputServerStats) {
+    fun getNextMatch(leagueID: String?, callback: OutputServerStats) {
         view.showLoading()
         val newRetroServ: RetroService = ServUtils.apiService
         if (leagueID != null) {
@@ -78,7 +78,7 @@ class MatchPresenter (private val view: MatchActivity) {
         view.hideLoading()
     }
 
-    fun parsingData(context: Activity, response: String): ArrayList<EventsItem> {
+    fun parsingData(response: String): ArrayList<EventsItem> {
         val dataList: ArrayList<EventsItem> = ArrayList()
         try {
             val jsonObject = JSONObject(response)

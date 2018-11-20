@@ -95,30 +95,13 @@ class DetailPresenter : DetailInterface {
                     EventsItem.DATE_EVENT to data.dateEvent,
                     EventsItem.ID_AWAY_TEAM to data.idAwayTeam,
                     EventsItem.ID_EVENT to data.idEvent,
-//                    EventsItem.STR_SPORT to data.strSport,
                     EventsItem.ID_HOME_TEAM to data.idHomeTeam,
                     EventsItem.ID_LEAGUE to data.idLeague,
-//                    EventsItem.HOME_FORMATION to data.strHomeFormation,
-//                    EventsItem.HOME_GOAL_DETAILS to data.strHomeGoalDetails,
-//                    EventsItem.HOME_SHOTS to data.intHomeShots,
-//                    EventsItem.HOME_LINEUP_GOALKEEPER to data.strHomeLineupGoalkeeper,
-//                    EventsItem.HOME_LINEUP_DEFENSE to data.strHomeLineupDefense,
-//                    EventsItem.HOME_LINEUP_MIDFIELD to data.strHomeLineupMidfield,
-//                    EventsItem.HOME_LINEUP_FORWARD to data.strHomeLineupForward,
-//                    EventsItem.HOME_LINEUP_SUBSTITUTES to data.strHomeLineupSubstitutes,
                     EventsItem.INT_AWAY_SCORE to data.intAwayScore,
                     EventsItem.INT_HOME_SCORE to data.intHomeScore,
                     EventsItem.STR_AWAY_TEAM to data.strAwayTeam,
                     EventsItem.STR_HOME_TEAM to data.strHomeTeam
                     )
-//                    EventsItem.AWAY_FORMATION to data.strAwayFormation,
-//                    EventsItem.AWAY_GOAL_DETAILS to data.strAwayGoalDetails,
-//                    EventsItem.AWAY_SHOTS to data.intAwayShots,
-//                    EventsItem.AWAY_LINEUP_GOALKEEPER to data.strAwayLineupGoalkeeper,
-//                    EventsItem.AWAY_LINEUP_DEFENSE to data.strAwayLineupDefense,
-//                    EventsItem.AWAY_LINEUP_MIDFIELD to data.strAwayLineupMidfield,
-//                    EventsItem.AWAY_LINEUP_FORWARD to data.strAwayLineupForward,
-//                    EventsItem.AWAY_LINEUP_SUBSTITUTES to data.strAwayLineupSubstitutes)
             }
         } catch (e: SQLiteConstraintException) {
             context.toast("Error: ${e.message}")

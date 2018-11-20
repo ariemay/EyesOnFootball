@@ -24,12 +24,12 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnable, SPLASH_DELAY)
+        mDelayHandler?.postDelayed(mRunnable, SPLASH_DELAY)
     }
 
     public override fun onDestroy() {
         if (mDelayHandler != null) {
-            mDelayHandler!!.removeCallbacks(mRunnable)
+            mDelayHandler?.removeCallbacks(mRunnable)
         }
         super.onDestroy()
     }

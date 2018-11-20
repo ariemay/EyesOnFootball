@@ -4,7 +4,6 @@
     <string name="last">Last Match </string>
     <string name="next">Next Match </string>
     <string name="goalers">Goalers</string>
-    <string name="scores">Final Score</string>
     <string name="yellowcard">Yellow Card</string>
     <string name="redcard">Red Card</string>
     <string name="Forward">Forward</string>
@@ -17,4 +16,5 @@
     <string name="Away">Away</string>
     <string name="versus">vs</string>
     <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
 </resources>

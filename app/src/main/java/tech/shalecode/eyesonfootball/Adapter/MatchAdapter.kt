@@ -2,6 +2,7 @@ package tech.shalecode.eyesonfootball.Adapter
 
 import android.os.Build
 import android.support.v7.widget.RecyclerView
+import android.text.method.TextKeyListener.clear
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,10 @@ import tech.shalecode.eyesonfootball.Models.EventsItem
 import tech.shalecode.eyesonfootball.R
 import tech.shalecode.eyesonfootball.R.id.*
 import tech.shalecode.eyesonfootball.Utility.Date.changeDate
+import java.util.Collections.addAll
 
 
-class MatchAdapter(private val events: List<EventsItem>, private val listener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchesViewHolder>() {
+class MatchAdapter(private var events: List<EventsItem>, private val listener: (EventsItem) -> Unit) : RecyclerView.Adapter<MatchesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchesViewHolder {
         return MatchesViewHolder(MatchUI().createView(AnkoContext.create(parent.context, parent)))
@@ -25,7 +27,6 @@ class MatchAdapter(private val events: List<EventsItem>, private val listener: (
     }
 
     override fun getItemCount(): Int = events.size
-
 }
 
 class MatchUI : AnkoComponent<ViewGroup> {

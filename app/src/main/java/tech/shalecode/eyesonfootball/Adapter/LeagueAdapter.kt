@@ -10,7 +10,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-class LeagueAdapter () {
+class LeagueAdapter {
 
     fun getLeagues(){
         val url="https://www.thesportsdb.com/api/v1/json/1/all_leagues.php"
@@ -20,10 +20,6 @@ class LeagueAdapter () {
 
     inner  class  MyAsyncTask: AsyncTask<String, String, String>(){
 
-        override fun onPreExecute() {
-            super.onPreExecute()
-        }
-
         override fun doInBackground(vararg p0: String?): String {
             try {
                 val url= URL(p0[0])
@@ -32,7 +28,7 @@ class LeagueAdapter () {
 
                 val dataJsonAsString=convertStreanToString(urlConnect.inputStream)
                 publishProgress(dataJsonAsString)
-                val json= JSONObject(dataJsonAsString);
+                val json= JSONObject(dataJsonAsString)
 
                 Log.i("TRYING HARDER", json.getString("idLeague"))
                 ///here is the required array
@@ -49,9 +45,6 @@ class LeagueAdapter () {
 
         override fun onProgressUpdate(vararg values:String?) {
 
-        }
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
         }
 
         fun convertStreanToString(inputStream: InputStream):String{

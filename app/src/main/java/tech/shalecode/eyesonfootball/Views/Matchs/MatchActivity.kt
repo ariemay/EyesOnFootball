@@ -8,6 +8,8 @@ Thank you.
 
 shalecode.tech => My personal domain, not released yet. Still trying to use Django for it.
 
+Updated: Added Testing Unit and Instrumental Testing
+
  */
 
 import android.content.Intent
@@ -17,9 +19,12 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SearchView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -148,12 +153,12 @@ class MatchActivity : AppCompatActivity(), MainView {
         var data: MutableList<EventsItem>
         if (navMenu == 1) {
             showLoading()
-            presenter.getLastMatches(this, spinnerID, object : OutputServerStats {
+            presenter.getLastMatches(spinnerID, object : OutputServerStats {
 
                 override fun onSuccess(response: String) {
                     Log.i("RESPONSE", response)
                     try {
-                        data = presenter.parsingData(this@MatchActivity, response)
+                        data = presenter.parsingData(response)
                         if (data.size < 1) {
                             Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
                         } else {
@@ -177,11 +182,11 @@ class MatchActivity : AppCompatActivity(), MainView {
             })
         } else if (navMenu == 2) {
             showLoading()
-            presenter.getNextMatch(this, spinnerID, object : OutputServerStats {
+            presenter.getNextMatch(spinnerID, object : OutputServerStats {
 
                 override fun onSuccess(response: String) {
                     try {
-                        data = presenter.parsingData(this@MatchActivity, response)
+                        data = presenter.parsingData(response)
                         if (data.size < 1) {
                             Toast.makeText(this@MatchActivity, "Maaf, coba lagi", Toast.LENGTH_SHORT).show()
                         } else {
@@ -263,14 +268,6 @@ class MatchActivity : AppCompatActivity(), MainView {
 
     override fun hideLoading() {
         proBar.invisible()
-    }
-
-    override fun getPrevEvents(dataPrev: List<EventsItem>) {
-
-    }
-
-    override fun showMatch(events: List<EventsItem>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }
